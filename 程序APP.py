@@ -21,7 +21,6 @@ feature_ranges = {
     "drink": {"type": "categorical", "options": [0, 1]},  # Never drinkers, Drinkers
     "fit": {"type": "categorical", "options": [0, 1]},  # Negative, Positive (FIT Result)
 }
-}
 
 # Streamlit 界面
 st.title("Prediction Model with SHAP Visualization")
