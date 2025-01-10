@@ -6,23 +6,21 @@ import shap
 import matplotlib.pyplot as plt
 
 # 加载保存的随机森林模型
-model = joblib.load('RF.pkl')
+model = joblib.load('rf_model.pkl')
 
 # 特征范围定义（根据提供的特征范围和数据类型）
 feature_ranges = {
-    "X_9": {"type": "categorical", "options": [0, 1]},
-    "X_39": {"type": "numerical", "min": 0.0, "max": 14417.0, "default": 5000.0},
-    "X_32": {"type": "numerical", "min": 2.0, "max": 6.6, "default": 4.0},
-    "X_34": {"type": "numerical", "min": 93.0, "max": 180.0, "default": 120.0},
-    "X_30": {"type": "numerical", "min": 1.0, "max": 480.0, "default": 240.0},
-    "X_28": {"type": "numerical", "min": 16.0, "max": 37.44, "default": 25.0},
-    "X_46": {"type": "numerical", "min": 0.0, "max": 77.0, "default": 40.0},
-    "X_31": {"type": "numerical", "min": 1.0, "max": 5.0, "default": 3.0},
-    "X_3": {"type": "numerical", "min": 0.0, "max": 170.0, "default": 85.0},
-    "X_36": {"type": "numerical", "min": 17.0, "max": 7768.0, "default": 2000.0},
-    "X_33": {"type": "numerical", "min": 10.0, "max": 45.6, "default": 30.0},
-    "X_44": {"type": "numerical", "min": 1.0, "max": 10.0, "default": 5.0},
-    "X_16": {"type": "categorical", "options": [0, 1]},
+    "gender": {"type": "categorical", "options": [0, 1]},  # Female, Male
+    "age": {"type": "categorical", "options": [0, 1, 2, 3]},  # 40-49, 50-59, 60-69, 70-74
+    "bmi": {"type": "categorical", "options": [0, 1]},  # Less than 24, 24 or greater
+    "residence": {"type": "categorical", "options": [0, 1]},  # Central urban, Agriculture-related areas
+    "fx": {"type": "categorical", "options": [0, 1]},  # No, Yes (History of chronic diarrhea)
+    "bm": {"type": "categorical", "options": [0, 1]},  # No, Yes (History of chronic constipation)
+    "lwy": {"type": "categorical", "options": [0, 1]},  # No, Yes (History of chronic appendicitis or appendectomy)
+    "smoke": {"type": "categorical", "options": [0, 1]},  # Never smokers, Current or former smokers
+    "drink": {"type": "categorical", "options": [0, 1]},  # Never drinkers, Drinkers
+    "fit": {"type": "categorical", "options": [0, 1]},  # Negative, Positive (FIT Result)
+}
 }
 
 # Streamlit 界面
@@ -57,6 +55,12 @@ if st.button("Predict"):
 
     # 提取预测的类别概率
     probability = predicted_proba[predicted_class] * 100
+    # 根据概率阈值设置不同的信息
+    threshold = 13.6868298%  # 设置一个阈值，如70%
+    if probability > threshold:
+        risk_level = "High"
+    else:
+        risk_level = "Low"
 
     # 显示预测结果，使用 Matplotlib 渲染指定字体
     text = f"Based on feature values, predicted possibility of AKI is {probability:.2f}%"
