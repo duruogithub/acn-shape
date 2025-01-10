@@ -55,7 +55,7 @@ if st.button("Predict"):
     # 提取预测的类别概率
     probability = predicted_proba[predicted_class] * 100
     # 根据概率阈值设置不同的信息
-    threshold = 13.6868298%  # 设置一个阈值，如70%
+    threshold = 13.6868298  # 设置一个阈值，如70%
     if probability > threshold:
         risk_level = "High"
     else:
